@@ -1,0 +1,263 @@
+html { font-family: sans-serif; font-size: 100%;}
+body { margin:0; padding:0;}
+ul { padding: 0; margin: 0;}
+h1.paperboy {
+	font-size: 35px;
+	font-family: 'Jacques Francois';
+	text-indent: 35px;
+	letter-spacing: 0.1em;
+	background-image: url(../images/newsie.png);
+	background-size: 25px;
+	background-repeat: no-repeat;
+	margin:5px;
+	display:inline-block;
+	vertical-align: top;
+}
+
+hr.titleRule {
+	border-color:#ccc;
+	box-shadow: 1px 0px 5px #ccc;
+	margin: 0px 0 5px;
+}
+
+h3#currentlyReading::after {
+	content: attr(data-content);
+	text-indent: 130px;
+	display:inline-block;
+	font-weight: normal;
+}
+
+h3#currentlyReading {
+	padding: 0;
+	margin: 10px 0 2px 7px;
+	font-size: 90%;
+	height: 28px;
+	background-repeat: no-repeat;
+	background-position: left 50%;
+	line-height: 28px;
+}
+
+.btnSources {
+	display: inline-block;
+	border:1px solid #999;	
+	width: 30px;
+	height: 30px;
+	vertical-align: top;
+	margin: 12px 8px 0 0;
+	float:right;
+	opacity: 0.4;
+	background-image: url(http://solid.it.cx/newsie/assets/images/favicon.ico);
+	background-color: transparent;
+	background-repeat: no-repeat;
+	background-position: center center;
+
+}
+
+nav label { 
+	display:block;
+	width: 180px;
+	height: 28px;
+	margin: 0 0 0 10px;
+}
+
+
+nav {
+	display:none;
+	width: auto;
+	padding: 0 0 5px 0;
+	margin-bottom: 10px;
+	border-bottom: 1px solid #999;
+	
+}
+
+nav.show {
+	display:block;
+}
+
+nav ul {
+	display: block;
+	padding:0;
+	margin: 0 0 10px 10px;
+	position:relative;
+}
+
+nav ul li {
+	cursor: pointer;
+	display: inline-block;
+	position: relative;
+	color: #0099cc;
+	text-indent: 0;
+	margin: 0 10px 5px 0;
+}
+
+nav .logo {
+	background-repeat: no-repeat;
+	line-height: 26px;
+
+}
+
+.logo.bbc, 
+#currentlyReading.bbc { 
+	background-image: url(../images/bbc.png); 
+	
+}
+.logo.nyt,
+#currentlyReading.nyt { 
+	background-image: url(../images/nyt.png); 	
+}
+.logo.lat,
+#currentlyReading.lat { 
+	background-image: url(../images/lat.png); 	
+}
+.logo.npr,
+#currentlyReading.npr { 
+	background-image: url(../images/npr.png); 
+	
+}
+.logo.reuters,
+#currentlyReading.reuters { 
+	background-image: url(../images/reuters.png); 	
+}
+
+
+#newsList {
+	margin: 0;
+	background: #f9f9f9;
+	opacity: 1;
+}
+
+#newsList.fadeOut {
+	-webkit-transition: opacity 0.1s;
+	opacity:0;
+}
+
+#newsList ul { 
+}
+
+#newsList article:first-child {
+	border: 0;
+}
+
+#newsList article {
+	display: inline-flex;
+	flex-wrap: nowrap;
+	justify-content: flex-start;
+	align-items: flex-start;
+	align-content: flex-start;
+	border: 1px solid #eee;
+	border-width: 1px 0 0 0;
+	padding: 8px 0px 5px 10px;
+	width:100%;
+	position: relative;
+	box-sizing: border-box;
+}
+
+
+#newsList article img {
+	display:none;
+}
+#newsList article img.show{
+	display:inline-block;
+	padding: 0 5px 0 0;
+
+}
+
+#newsList .left{
+	display: none;
+	vertical-align: top;
+	align-self: flex-start;
+	order: 1;
+	flex-shrink: 1;
+}
+
+#newsList .left.show {
+	display:inline-block;
+	min-width: 85px;
+}
+
+#newsList .right{
+	display:inline-flex;
+	vertical-align: top;
+	justify-content: space-between;
+	order: 2;
+	flex-grow: 1 ;
+	align-self: flex-start;
+}
+
+#newsList .right .flex {
+	display: flex;
+	flex-direction: column;
+}
+
+#newsList article h3 { 
+	font-size: 100%;
+	font-weight: bold;
+	font-family: serif;
+	margin: 0 0px 0 0;
+	padding: 0 0px 0 0;
+	text-align: left;
+	letter-spacing: 0.02em;
+}
+
+#newsList article h3 a {
+	text-decoration: none;
+	color: #000;
+}
+
+#newsList article date { 
+	font-size: 80%;
+	font-weight: normal;
+	color: #005599;
+	margin: 0;
+	font-style: italic;
+}
+
+#newsList article subsection {
+	font-size: 75%;
+	margin-left:5px;
+	font-style: italic;
+	color: purple;
+	text-transform: lowercase;
+}
+
+#newsList article description { 
+	font-size: 90%;
+	font-weight: normal;
+	color: #333;
+	margin: 0;
+	padding: 0 40px 0 0;
+	text-align: justify;
+	display:none;
+}
+
+#newsList article description.show {
+	display:block;
+}
+
+#newsList article .moreless {
+	display:block;
+	position: relatve;
+	right: 5px;
+	top: 5px;
+	cursor:pointer;
+	color: #ccc;
+	font-size: 120%;
+	text-align:center;
+	vertical-align: middle;
+	min-width:40px;
+	z-index:20;
+	outline: none;
+}
+
+#newsList article .moreless::before {
+	content: "+";
+}
+
+#newsList article .moreless.minus::before {
+	content: "-";
+}
+
+
+#templateClone {
+	display:none;
+}
