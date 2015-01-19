@@ -122,16 +122,19 @@ nav .logo {
 
 #newsList {
 	margin: 0;
-	background: #f9f9f9;
 	opacity: 1;
+	display: flex;
+
+	flex-direction: column;
+	flex-wrap: wrap;
 }
+
+
+
 
 #newsList.fadeOut {
 	-webkit-transition: opacity 0.1s;
 	opacity:0;
-}
-
-#newsList ul { 
 }
 
 #newsList article:first-child {
@@ -140,6 +143,7 @@ nav .logo {
 
 #newsList article {
 	display: inline-flex;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(80%,rgba(252,255,250,1)), color-stop(100%,rgba(255,255,255,1)));
 	flex-wrap: nowrap;
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -152,10 +156,10 @@ nav .logo {
 	box-sizing: border-box;
 }
 
-
 #newsList article img {
 	display:none;
 }
+
 #newsList article img.show{
 	display:inline-block;
 	padding: 0 5px 0 0;
@@ -185,9 +189,15 @@ nav .logo {
 }
 
 #newsList .right .flex {
-	display: flex;
+	display: inline-flex;
 	flex-direction: column;
 }
+
+
+
+
+
+
 
 #newsList article h3 { 
 	font-size: 100%;
@@ -217,7 +227,12 @@ nav .logo {
 	margin-left:5px;
 	font-style: italic;
 	color: purple;
+	display:none;
 	text-transform: lowercase;
+}
+
+#newsList article subsection {
+	display:block;
 }
 
 #newsList article description { 
@@ -225,7 +240,7 @@ nav .logo {
 	font-weight: normal;
 	color: #333;
 	margin: 0;
-	padding: 0 40px 0 0;
+	padding: 0;
 	text-align: justify;
 	display:none;
 }
@@ -256,6 +271,54 @@ nav .logo {
 #newsList article .moreless.minus::before {
 	content: "-";
 }
+
+
+/* Greater than 600px wide */
+@media (min-width: 700px) {
+	#newsList { 
+		flex-direction: row;
+		background: #fff;
+	}
+	#newsList article:first-child {
+		border: 1px solid #eee;
+		border-width: 1px 1px 0 0;
+	}
+	#newsList article {
+		width: 50%;
+		border: 1px solid #eee;
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(80%,rgba(252,255,250,1)), color-stop(100%,rgba(255,255,255,1)));
+	}
+	#newsList .left.show {
+		display:inline-flex;
+		min-width: 75px;
+	}
+	#newsList article description {
+		/*display: block;*/
+	}
+
+
+	/* Greater than 900px wide */
+	@media (min-width: 900px) {
+		#newsList article {
+			width: 33%;
+		}
+
+		#newsList .left.show {
+			display:inline-flex;
+			/*width: 100%;*/
+		}
+		#newsList article {
+			/*flex-direction: column;*/
+		}
+		#newsList article img.show {
+			/*margin: 0 auto;	*/
+		}
+
+	}
+
+}
+
+
 
 
 #templateClone {

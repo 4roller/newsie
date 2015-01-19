@@ -23,7 +23,6 @@ var newsie = (function() {
 	var MIN_SWIPE = 150;
 	var isMobile;
 
-
 	var initDOM = function() {
 		nav = document.querySelector(CSS_NAV);
 		newsList = document.querySelector(CSS_NEWS_LIST);
@@ -43,7 +42,7 @@ var newsie = (function() {
 	}
 
 	var handleKeyUp = function(e) {
-		console.log(e.keyCode);
+		//console.log(e.keyCode);
 		switch(e.keyCode) {
 			case 39:
 				swipeRight();
@@ -96,13 +95,10 @@ var newsie = (function() {
 	var swipeLeft = function() {
 		var parent = nav.querySelector('ul.' + current.src);
 		var child = parent.querySelector('li[data-topic="' + current.topic + '"]');
-
 		if(child.previousSibling) {
 			child.previousSibling.click();	
 		} else {
 			getPreviousSource(parent);
-			
-			
 		}
 	}
 
@@ -138,9 +134,6 @@ var newsie = (function() {
 		curEl.lastChild.click();
 	}
 	
-
-
-
 	var createNavigation = function(obj) {
 		for(var key in obj) {
 			var label = document.createElement('label');
@@ -170,7 +163,10 @@ var newsie = (function() {
 						'src': e.target.parentNode.getAttribute('data-src'),
 						'topic': e.target.getAttribute('data-topic')
 					}
-					fetchArticles(obj);
+					newsList.classList.add('fadeOut');
+					setTimeout(function() { // Handle Fadeout
+						fetchArticles(obj);
+					}, 300);
 					updateCurrentylyReading(obj);
 					nav.classList.remove('show');
 					scrollTo(0,0);
@@ -207,41 +203,43 @@ var newsie = (function() {
 	}
 
 	var populateNewsList = function(obj) {
-		newsList.classList.add('fadeOut');
-		setTimeout(function() { // Handle Fadeout
-			newsList.innerHTML = "";
-			newsList.classList.remove('fadeOut');
-			var result = obj.result;
-			var ul = document.createElement('ul');
-			for(var i=0, length = result.length; i<length; i++) {
-				var li = document.createElement('li');
-				var article = templateClone.cloneNode(true); 
-				article.removeAttribute('id');
-				var a = article.querySelector('h3 a')
-				a.innerHTML = result[i].title;
-				a.href = result[i].link;
-				article.querySelector('date').innerHTML = niceDate(result[i].date);
-				if(result[i].subsection) {
-					article.querySelector('subsection').innerHTML = "#" + result[i].subsection;				
-				}
-				article.querySelector('description').innerHTML = result[i].description;
-				if(result[i].media) {
-					var img = article.querySelector('img');
-					img.parentNode.classList.add('show');
-					img.classList.add('show');
-					img.setAttribute('data-src', result[i].media);							
-				} 
-				ul.appendChild(article);
-
+		newsList.innerHTML = "";
+		newsList.classList.remove('fadeOut');
+		var result = obj.result;
+		var ul = document.createDocumentFragment();
+		for(var i=0, length = result.length; i<length; i++) {
+			var li = document.createElement('li');
+			var article = templateClone.cloneNode(true); 
+			article.removeAttribute('id');
+			var a = article.querySelector('h3 a')
+			a.innerHTML = result[i].title;
+			a.href = result[i].link;
+			article.querySelector('date').innerHTML = niceDate(result[i].date);
+			if(result[i].subsection) {
+				var subSection = article.querySelector('subsection');
+				subSection.classList.add('show');
+				subSection.innerHTML = "#" + result[i].subsection;				
 			}
-			newsList.appendChild(ul);
-			setImages();
-			attachMoreLessHandlers();
-		}, 300);	
+			article.querySelector('description').innerHTML = result[i].description;
+			if(result[i].media) {
+				var img = article.querySelector('img');
+				img.parentNode.classList.add('show');
+				img.classList.add('show');
+				img.setAttribute('data-src-thumbnail', result[i].media.thumbnail);
+				if(result[i].media.medium) {
+					img.setAttribute('data-src-medium', result[i].media.medium);	
+				}
+				if (result[i].media.full ) {
+					img.setAttribute('data-src-full', result[i].media.full);
+				}
+			} 
+			ul.appendChild(article);
+
+		}
+		newsList.appendChild(ul);
+		setImages();
+		attachMoreLessHandlers();
 	}
-
-
-
 
 	var attachMoreLessHandlers = function() {
 		if(!moreLessInit) {
@@ -266,8 +264,8 @@ var newsie = (function() {
 		clearTimeout(scrollTimeout);
 		setTimeout(function() {
 			for(var i = 0, length = allImages.length; i < length; i++) {
-				if(isWithinBounds(allImages[i], range) && allImages[i].hasAttribute('data-src')) {
-					allImages[i].src = allImages[i].getAttribute('data-src');
+				if(isWithinBounds(allImages[i], range)) {
+					allImages[i].src = allImages[i].getAttribute('data-src-thumbnail');	
 				}
 			}
 		},50);

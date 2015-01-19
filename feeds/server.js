@@ -7,7 +7,7 @@ var newsieFeedService = (function() {
 	var request = require('request');
 	var xml2js = require('xml2js').parseString;
 	var Promise = require('promise');
-
+	var MAX_PULL = 15;
 	var SERVER_PORT = 3333; 
 
 	// Developer Keys
@@ -60,6 +60,7 @@ var newsieFeedService = (function() {
 			'topics': {
 		        'Top Stories': '',
 		        'World': 'world',
+		        'US and Canada': 'world/us_and_canada',
 				'Business': 'business',
 		     	'Politics':	'politics',
 		        'Health': 'health',
@@ -105,11 +106,19 @@ var newsieFeedService = (function() {
 	var mapNYT = function(obj) {
 		var getMedia = function() {
 			var media = null;
-			if(obj['multimedia']) {
-				media = obj['multimedia'][0]['url'];
+			//console.log(typeof obj['multimedia'] == "object");
+
+			if(typeof obj['multimedia'] == "object") {
+				//console.log(typeof obj['multimedia'][1] == "object");
+				media = {
+					'thumbnail': obj['multimedia'][0]['url'],
+					'medium': (typeof obj['multimedia'][1] == "object") ? obj['multimedia'][1]['url'] : null,
+					'full': (typeof obj['multimedia'][3] == "object") ? obj['multimedia'][3]['url'] : null  
+				}
 			}
 			return media;
 		}
+
 		return {
 			'title': obj['title'],
 			'date': obj['published_date'],
@@ -123,7 +132,11 @@ var newsieFeedService = (function() {
 		var getMedia = function() {
 			var media = null;
 			if(obj['media:thumbnail']) {
-				media = obj['media:thumbnail'][0]['$']['url'] + "/75/75x75";
+				media = {
+					'thumbnail': obj['media:thumbnail'][0]['$']['url'] + "/75/75x75",
+					'medium': obj['media:thumbnail'][0]['$']['url'] + "/150/150x150",
+					'full': obj['media:thumbnail'][0]['$']['url'] + "/300/300x150"
+				}
 			}
 			return media;
 		}
@@ -140,7 +153,9 @@ var newsieFeedService = (function() {
 		var getMedia = function() {
 			var media = null;
 			if(obj['media:thumbnail']) {
-				media = obj['media:thumbnail'][0]['$']['url'];
+				media = {
+					'thumbnail':  obj['media:thumbnail'][0]['$']['url']
+				}
 			}
 			return media;
 		}
@@ -209,7 +224,10 @@ var newsieFeedService = (function() {
 					}
 					break;
 			}
-			for(var i=0, length = handlerObj['results'].length; i < length; i++) {
+			for(var i=0, 
+				length = (handlerObj['results'].length < MAX_PULL) ? handlerObj['results'].length : MAX_PULL; 
+				i < length; 
+				i++) {
 				articles.push(handlerObj.mapFn(handlerObj.results[i]))
 			}
 			var obj = {
@@ -269,7 +287,7 @@ var newsieFeedService = (function() {
 				if(queryObject.source == 'nyt') {
 					someURL += keys['nyt'];
 				}			
-				console.log(someURL)
+				//console.log(someURL)
 				fetchStream(someURL, queryObject.source, res);			
 			} else { // Send the Sources as a JSON object
 				res.writeHead(200, {
