@@ -15,26 +15,32 @@ h1.paperboy {
 }
 
 hr.titleRule {
-	border-color:#ccc;
-	box-shadow: 1px 0px 5px #ccc;
+	border-color:#eee;
+	box-shadow: 1px 0px 5px #;
 	margin: 0px 0 5px;
-}
-
-h3#currentlyReading::after {
-	content: attr(data-content);
-	text-indent: 130px;
-	display:inline-block;
-	font-weight: normal;
 }
 
 h3#currentlyReading {
 	padding: 0;
-	margin: 10px 0 2px 7px;
-	font-size: 90%;
-	height: 28px;
+	margin: 0 0 0 10px;
+	height: 30px;
 	background-repeat: no-repeat;
-	background-position: left 50%;
-	line-height: 28px;
+	background-position: left center;
+	display:inline-block;
+}
+
+span.currentlyReadingTopic {
+	height: 30px;
+	line-height: 30px;
+	margin-left: 5px;
+	display: inline-block;
+	vertical-align: top;
+}
+span.currentlyReadingTopic::after {
+	content: attr(data-content);
+	display:inline-block;
+	font-weight: normal;
+	vertical-align: middle;
 }
 
 .btnSources {
@@ -50,7 +56,6 @@ h3#currentlyReading {
 	background-color: transparent;
 	background-repeat: no-repeat;
 	background-position: center center;
-
 }
 
 nav label { 
@@ -92,31 +97,41 @@ nav ul li {
 
 nav .logo {
 	background-repeat: no-repeat;
-	line-height: 26px;
-
+	background-position: 0 0;
+	height: 25px;
 }
 
 .logo.bbc, 
 #currentlyReading.bbc { 
-	background-image: url(../images/bbc.png); 
-	
+	background-image: url(../images/bbc.svg); 
+	background-size: 105px;
+	background-position: -10px center;
+	width: 90px;
 }
 .logo.nyt,
 #currentlyReading.nyt { 
-	background-image: url(../images/nyt.png); 	
+	background-image: url(../images/nyt.svg); 	
+	background-size: 120px;
+	width: 125px;
 }
 .logo.lat,
 #currentlyReading.lat { 
-	background-image: url(../images/lat.png); 	
+	background-image: url(../images/lat.svg); 	
+	background-size: 120px;
+	width: 125px;
 }
 .logo.npr,
 #currentlyReading.npr { 
-	background-image: url(../images/npr.png); 
-	
+	background-image: url(../images/npr.svg); 
+	background-size: 65px;
+	width: 65px;
 }
 .logo.reuters,
 #currentlyReading.reuters { 
-	background-image: url(../images/reuters.png); 	
+	background-image: url(../images/reuters.svg); 	
+	background-size: 100px;
+	background-position: 0px cener;
+	width: 105px;
 }
 
 
@@ -162,8 +177,8 @@ nav .logo {
 
 #newsList article img.show{
 	display:inline-block;
-	padding: 0 5px 0 0;
-
+	padding: 0;
+	border: 1px solid #ddd;
 }
 
 #newsList .left{
@@ -176,7 +191,8 @@ nav .logo {
 
 #newsList .left.show {
 	display:inline-block;
-	min-width: 85px;
+	margin-right: 20px;
+	min-width: 65px;
 }
 
 #newsList .right{
@@ -200,7 +216,7 @@ nav .logo {
 
 
 #newsList article h3 { 
-	font-size: 100%;
+	font-size: 90%;
 	font-weight: bold;
 	font-family: serif;
 	margin: 0 0px 0 0;

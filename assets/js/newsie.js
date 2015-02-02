@@ -1,3 +1,10 @@
+/* 
+Newsie App - Jason Leung - 2015.01
+Node in the backend with RSS feeds from news providers 
+Pure Javascript Front End
+*/
+
+
 var newsie = (function() {
 
 	// CSS 
@@ -6,6 +13,7 @@ var newsie = (function() {
 	var CSS_TEMPLATE_CLONE = "#templateClone";	
 	var CSS_BTN_SOURCES = ".btnSources";
 	var CSS_CURRENTLY_READING = "#currentlyReading";
+	var CSS_CURRENTLY_READING_TOPIC = ".currentlyReadingTopic";
 
 	// DOM elements
 	var nav, newsList, templateClone, btnSources, currentlyReading;
@@ -29,6 +37,7 @@ var newsie = (function() {
 		templateClone = document.querySelector(CSS_TEMPLATE_CLONE);
 		btnSources = document.querySelector(CSS_BTN_SOURCES);
 		currentlyReading = document.querySelector(CSS_CURRENTLY_READING);
+		currentlyReadingTopic = document.querySelector(CSS_CURRENTLY_READING_TOPIC);
 	}
 
 	var attachListeners = function() {
@@ -53,6 +62,11 @@ var newsie = (function() {
 		}
 	}
 
+	var resetTouches = function() {
+		tStart = {};
+		tMove = {};
+	}
+
 	var touchStartHandler = function(e) {
 		tStart = {
 			'x': e.touches[0].pageX,
@@ -69,7 +83,7 @@ var newsie = (function() {
 	var touchEndHandler = function(e) {
 		var deltaX = parseInt(tMove.x - tStart.x, 10);
 		var deltaY = parseInt(tMove.y - tStart.y, 10);
-		console.log(tStart, tMove, deltaX);
+		console.log(deltaX);
 		if(Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > MIN_SWIPE && !isNaN(deltaX)) {
 			tStart = {};
 			tMove = {};
@@ -78,8 +92,8 @@ var newsie = (function() {
 			} else if (deltaX < 0) {
 				swipeRight();
 			}
-
 		}
+		resetTouches();
 	}
 
 	var swipeRight = function() {
@@ -184,7 +198,7 @@ var newsie = (function() {
 	}
 
 	var updateCurrentylyReading = function(obj) {
-		document.querySelector(CSS_CURRENTLY_READING, 'after').setAttribute('data-content', obj.topic);
+		currentlyReadingTopic.setAttribute('data-content', obj.topic);
 		currentlyReading.className = "";
 		currentlyReading.classList.add(obj.src);
 	}
@@ -356,8 +370,6 @@ var newsie = (function() {
 			isMobile = isMobileDevice();
 			attachListeners();
 			fetchSourcesAndTopics();
-		
-
 		}
 	}
 })();
